@@ -37,14 +37,14 @@ class BadgeUnlockedListener
                 // If badge found
                 if( $new_badge ) {
                     $user->badge_id = $new_badge->id;
-                    if( $user->save() )
+                    if( $user->save() ) {
                         Log::info('BadgeUnlockedListener => New Badge: User = '.$user->id.' | Badge = '.$new_badge->name);
+                        return TRUE;
+                    }
                     else
                         Log::error('BadgeUnlockedListener => Failed to set new Badge: User = '.$user->id.' | Badge = '.$new_badge->name);
                 } else Log::error('BadgeUnlockedListener => Badge not found: '.json_encode($new_badge));
             } else Log::error('BadgeUnlockedListener => User not found: '.json_encode($user));
-
-            return TRUE;
         } catch(Exception $e) {
             Log::error('BadgeUnlockedListener => Exception: '.$e->getMessage());
         }
