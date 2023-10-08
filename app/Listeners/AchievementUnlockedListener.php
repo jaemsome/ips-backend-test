@@ -23,7 +23,7 @@ class AchievementUnlockedListener
     /**
      * Handle the event.
      */
-    public function handle(AchievementUnlockedEvent $event): void
+    public function handle(AchievementUnlockedEvent $event): bool
     {
         try {
             Log::info('AchievementUnlockedListener => '.json_encode($event));
@@ -54,11 +54,15 @@ class AchievementUnlockedListener
 
                         // Check new badge
                         $user->newBadgeUnlocked($total_achievements);
+
+                        return TRUE;
                     }
                 }
             } else Log::error('AchievementUnlockedListener => User not found: '.json_encode($user));
         } catch(Exception $e) {
             Log::error('AchievementUnlockedListener => Exception: '.$e->getMessage());
         }
+
+        return FALSE;
     }
 }
