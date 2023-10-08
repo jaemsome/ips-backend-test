@@ -21,7 +21,7 @@ class CommentWrittenListener
     /**
      * Handle the event.
      */
-    public function handle(CommentWritten $event): void
+    public function handle(CommentWritten $event): bool
     {
         try {
             // Access event data and perform actions
@@ -37,10 +37,14 @@ class CommentWrittenListener
     
                     // Check achievement
                     $user->newAchievementUnlocked($event::EVENT_NAME, count($user_comments));
+
+                    return TRUE;
                 } else Log::error('CommentWrittenListener => User not found: '.json_encode($user));
             } else Log::error('CommentWrittenListener => Comment not found: '.json_encode($comment));
         } catch(Exception $e) {
             Log::error('CommentWrittenListener =>Exception: '.$e->getMessage());
         }
+
+        return FALSE;
     }
 }
