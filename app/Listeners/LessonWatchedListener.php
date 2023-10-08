@@ -21,7 +21,7 @@ class LessonWatchedListener
     /**
      * Handle the event.
      */
-    public function handle(LessonWatched $event): void
+    public function handle(LessonWatched $event): bool
     {
         try {
             // Access event data and perform actions
@@ -39,9 +39,13 @@ class LessonWatchedListener
                 
                 // Check achievement
                 $user->newAchievementUnlocked($event::EVENT_NAME, count($user_watched));
+
+                return TRUE;
             }
         } catch(Exception $e) {
             Log::error('LessonWatched =>Exception: '.$e->getMessage());
         }
+
+        return FALSE;
     }
 }
